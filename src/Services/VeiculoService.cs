@@ -1,6 +1,6 @@
-using System.Security.Cryptography.X509Certificates;
 using ControleEstacionamento.Models;
 using ControleEstacionamento.Repositories;
+using ControleEstacionamento.DTO;
 
 namespace ControleEstacionamento.Services;
 
@@ -22,9 +22,9 @@ public class VeiculoService
       throw new InvalidOperationException("Veículo já está estacionado.");
     }
 
-    if (string.IsNullOrWhiteSpace(placa))
+    if (string.IsNullOrWhiteSpace(placa) || placa.Length != 7)
     {
-      throw new InvalidOperationException("Formato de placa inválido");
+      throw new InvalidOperationException("Placa inválida!");
     }
 
     var veiculo = new Veiculo
@@ -37,7 +37,7 @@ public class VeiculoService
     _repository.Adicionar(veiculo);
   }
 
-  public void RegistrarSaida(string placa)
+  public SaidaResult RegistrarSaida(string placa)
   {
     var veiculo = _repository.GetVeiculoByPlaca(placa);
 
@@ -50,6 +50,16 @@ public class VeiculoService
     veiculo.Estacionado = false;
 
     _repository.UpdateVeiculo(veiculo);
+
+    var horas = CalcularHoras(veiculo.HoraEntrada, veiculo.HoraSaida.Value);
+    var valor = CalcularValor(horas);
+
+    return new SaidaResult
+    {
+      Placa = veiculo.Placa,
+      Horas = horas,
+      Valor = valor
+    };
   }
 
   public List<Veiculo> GetVeiculos()
@@ -60,5 +70,21 @@ public class VeiculoService
   public List<Veiculo> GetVeiculosEstacionados()
   {
     return _repository.GetVeiculosEstacionados();
+  }
+
+  public double CalcularHoras(DateTime entrada, DateTime saida)
+  {
+    var tempo = saida - entrada;
+    return Math.Ceiling(tempo.TotalHours);
+  }
+
+  public decimal CalcularValor(double horas)
+  {
+    if (horas <= 1)
+    {
+      return 10;
+    }
+
+    return 10 + ((decimal)(horas - 1) * 5);
   }
 }

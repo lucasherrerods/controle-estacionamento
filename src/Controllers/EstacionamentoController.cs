@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using ControleEstacionamento.Services;
+using ControleEstacionamento.DTO;
 using System.Diagnostics.CodeAnalysis;
 
 namespace ControleEstacionamento.Controllers;
@@ -16,11 +17,11 @@ public class EstacionamentoController : ControllerBase
   }
 
   [HttpPost("entrada")]
-  public IActionResult Entrada([FromBody] string placa)
+  public IActionResult Entrada([FromBody] VeiculoRequest request)
   {
     try
     {
-      _service.RegistrarEntrada(placa);
+      _service.RegistrarEntrada(request.Placa);
       return Ok(new { message = "Entrada registrada com sucesso!" });
     }
     catch (InvalidOperationException ex)
@@ -30,12 +31,12 @@ public class EstacionamentoController : ControllerBase
   }
 
   [HttpPost("saida")]
-  public IActionResult Saida([FromBody] string placa)
+  public IActionResult Saida([FromBody] VeiculoRequest request)
   {
     try
     {
-      _service.RegistrarSaida(placa);
-      return Ok(new { message = "Saída registrada com sucesso" });
+      var resultado = _service.RegistrarSaida(request.Placa);
+      return Ok(resultado);
     }
     catch (InvalidOperationException ex)
     {
@@ -51,7 +52,7 @@ public class EstacionamentoController : ControllerBase
 
     if (veiculos.Count == 0)
     {
-      return Ok(new { message = "Nenhum veículo estacionado." });
+      return Ok(new { message = "Nenhum veículo registrado." });
     }
 
     return Ok(veiculos);

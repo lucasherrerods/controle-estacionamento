@@ -36,16 +36,7 @@ public class VeiculoRepository
 
   public void UpdateVeiculo(Veiculo veiculo)
   {
-    var veiculoExistente = _context.Veiculos.FirstOrDefault(v => v.Id == veiculo.Id);
-
-    if (veiculoExistente != null)
-    {
-      veiculoExistente.Placa = veiculo.Placa;
-      veiculoExistente.HoraEntrada = veiculo.HoraEntrada;
-      veiculoExistente.HoraSaida = veiculo.HoraSaida;
-      veiculoExistente.Estacionado = veiculo.Estacionado;
-
-      _context.SaveChanges();
-    }
+    _context.Veiculos.Update(veiculo);
+    _context.SaveChanges();
   }
 }
