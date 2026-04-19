@@ -1,8 +1,14 @@
 using Microsoft.EntityFrameworkCore;
+using ControleEstacionamento.Repositories;
+using ControleEstacionamento.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Injetando dependências
+
 builder.Services.AddControllers();
+builder.Services.AddScoped<VeiculoRepository>();
+builder.Services.AddScoped<VeiculoService>();
 
 // Database em memória
 builder.Services.AddDbContext<ControleEstacionamento.Data.AppDbContext>(options =>
