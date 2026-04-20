@@ -4,8 +4,19 @@ using ControleEstacionamento.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Injetando dependências
+// Adicionando serviço de CORS para permitir requests no front
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowViteFrontEnd",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:5173")
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        });
+});
 
+// Injetando dependências
 builder.Services.AddControllers();
 builder.Services.AddScoped<VeiculoRepository>();
 builder.Services.AddScoped<VeiculoService>();
@@ -29,6 +40,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("AllowViteFrontEnd");
 
 app.UseAuthorization();
 
