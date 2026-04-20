@@ -13,7 +13,7 @@ builder.Services.AddScoped<EstacionamentoService>();
 
 // Database em memória
 builder.Services.AddDbContext<ControleEstacionamento.Data.AppDbContext>(options =>
-    options.UseInMemoryDatabase("MemoryDb"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
