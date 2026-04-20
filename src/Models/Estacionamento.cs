@@ -10,11 +10,5 @@ public class Estacionamento
 
   public Estacionamento()
   {
-    TotalVagas = 50; // Definindo um valor padrão para o total de vagas
-  }
-
-  public Estacionamento(int totalVagas)
-  {
-    TotalVagas = totalVagas;
   }
 }

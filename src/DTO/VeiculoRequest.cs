@@ -2,5 +2,5 @@ namespace ControleEstacionamento.DTO;
 
 public class VeiculoRequest
 {
-  public string Placa { get; set; }
+  public required string Placa { get; set; }
 }

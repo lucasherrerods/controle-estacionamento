@@ -7,10 +7,12 @@ namespace ControleEstacionamento.Services;
 public class VeiculoService
 {
   private readonly VeiculoRepository _repository;
+  private readonly EstacionamentoService _estacionamentoService;
 
-  public VeiculoService(VeiculoRepository repository)
+  public VeiculoService(VeiculoRepository repository, EstacionamentoService estacionamentoService)
   {
     _repository = repository;
+    _estacionamentoService = estacionamentoService;
   }
 
   public void RegistrarEntrada(string placa)
@@ -25,6 +27,11 @@ public class VeiculoService
     if (string.IsNullOrWhiteSpace(placa) || placa.Length != 7)
     {
       throw new InvalidOperationException("Placa inválida!");
+    }
+
+    if (!_estacionamentoService.VagaDisponivel())
+    {
+      throw new InvalidOperationException("Capacidade máxima do estacionamento atingida.");
     }
 
     var veiculo = new Veiculo
@@ -70,6 +77,17 @@ public class VeiculoService
   public List<Veiculo> GetVeiculosEstacionados()
   {
     return _repository.GetVeiculosEstacionados();
+  }
+
+  public Veiculo? GetVeiculoByPlaca(string placa)
+  {
+    var veiculo = _repository.GetVeiculoByPlaca(placa);
+
+    if (veiculo == null)
+    {
+      throw new InvalidOperationException("Veículo não encontrado.");
+    }
+    return veiculo;
   }
 
   public double CalcularHoras(DateTime entrada, DateTime saida)

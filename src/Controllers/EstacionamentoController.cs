@@ -9,11 +9,13 @@ namespace ControleEstacionamento.Controllers;
 [Route("[controller]")]
 public class EstacionamentoController : ControllerBase
 {
-  private readonly VeiculoService _service;
+  private readonly VeiculoService _veiculoService;
+  private readonly EstacionamentoService _estacionamentoService;
 
-  public EstacionamentoController(VeiculoService service)
+  public EstacionamentoController(VeiculoService service, EstacionamentoService estacionamentoService)
   {
-    _service = service;
+    _veiculoService = service;
+    _estacionamentoService = estacionamentoService;
   }
 
   [HttpPost("entrada")]
@@ -21,12 +23,12 @@ public class EstacionamentoController : ControllerBase
   {
     try
     {
-      _service.RegistrarEntrada(request.Placa);
+      _veiculoService.RegistrarEntrada(request.Placa);
       return Ok(new { message = "Entrada registrada com sucesso!" });
     }
     catch (InvalidOperationException ex)
     {
-      return BadRequest(ex.Message);
+      return BadRequest(new { message = ex.Message });
     }
   }
 
@@ -35,40 +37,61 @@ public class EstacionamentoController : ControllerBase
   {
     try
     {
-      var resultado = _service.RegistrarSaida(request.Placa);
+      var resultado = _veiculoService.RegistrarSaida(request.Placa);
       return Ok(resultado);
     }
     catch (InvalidOperationException ex)
     {
-      return BadRequest(ex.Message);
+      return BadRequest(new { message = ex.Message });
     }
-  }
-
-  // Lista de veículos geral
-  [HttpGet("veiculos")]
-  public IActionResult GetVeiculos()
-  {
-    var veiculos = _service.GetVeiculos();
-
-    if (veiculos.Count == 0)
-    {
-      return Ok(new { message = "Nenhum veículo registrado." });
-    }
-
-    return Ok(veiculos);
   }
 
   // Lista de veículos estacionados no momento
-  [HttpGet("veiculos/estacionados")]
+  [HttpGet("veiculos")]
   public IActionResult GetVeiculosEstacionados()
   {
-    var veiculos = _service.GetVeiculosEstacionados();
+    var veiculos = _veiculoService.GetVeiculosEstacionados();
 
     if (veiculos.Count == 0)
     {
-      return Ok(new { message = "Nenhum veículo estacionado." });
+      return NotFound(new { message = "Nenhum veículo estacionado." });
     }
 
     return Ok(veiculos);
+  }
+
+  // Lista de veículos registrados no geral
+  [HttpGet("veiculos/historico")]
+  public IActionResult GetVeiculos()
+  {
+    var veiculos = _veiculoService.GetVeiculos();
+
+    if (veiculos.Count == 0)
+    {
+      return NotFound(new { message = "Nenhum veículo registrado." });
+    }
+
+    return Ok(veiculos);
+  }
+
+  [HttpGet("veiculos/{placa}")]
+  public IActionResult GetVeiculoByPlaca([FromRoute] VeiculoRequest request)
+  {
+    try
+    {
+      var veiculo = _veiculoService.GetVeiculoByPlaca(request.Placa);
+      return Ok(veiculo);
+    }
+    catch (InvalidOperationException ex)
+    {
+      return NotFound(new { message = ex.Message });
+    }
+  }
+
+  [HttpGet("status")]
+  public IActionResult GetStatusEstacionamento()
+  {
+    var status = _estacionamentoService.GetStatus();
+    return Ok(status);
   }
 }

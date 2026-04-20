@@ -9,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddScoped<VeiculoRepository>();
 builder.Services.AddScoped<VeiculoService>();
+builder.Services.AddScoped<EstacionamentoService>();
 
 // Database em memória
 builder.Services.AddDbContext<ControleEstacionamento.Data.AppDbContext>(options =>
