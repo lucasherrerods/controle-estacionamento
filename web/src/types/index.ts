@@ -1,7 +1,7 @@
 export interface Status {
   totalVagas: number;
-  vagasOcupadas: number;
-  vagasDisponiveis: number;
+  ocupadas: number;
+  disponiveis: number;
 }
 
 export interface ResultadoSaida {
