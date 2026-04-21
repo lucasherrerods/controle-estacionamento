@@ -6,6 +6,6 @@ export interface Status {
 
 export interface ResultadoSaida {
   placa: string;
-  tempoEstacionado: number;
-  valorCobrado: number;
+  horas: number;
+  valor: number;
 }

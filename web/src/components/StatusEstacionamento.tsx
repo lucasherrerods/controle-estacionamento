@@ -1,7 +1,12 @@
-import { useEstacionamento } from "../hooks/useEstacionamento"
+interface Props {
+  status: {
+    totalVagas: number
+    ocupadas: number
+    disponiveis: number
+  } | null
+}
 
-export default function StatusEstacionamento() {
-  const { status } = useEstacionamento()
+export default function StatusEstacionamento({ status }: Props) {
 
   return (
     <div className="bg-gray-800 rounded-2xl shadow p-6 mb-6">
