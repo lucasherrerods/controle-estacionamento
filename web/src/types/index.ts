@@ -9,3 +9,9 @@ export interface ResultadoSaida {
   horas: number;
   valor: number;
 }
+
+export interface Veiculo {
+  placa: string;
+  horaEntrada: string;
+  estacionado: boolean;
+}
