@@ -11,7 +11,9 @@ export interface ResultadoSaida {
 }
 
 export interface Veiculo {
+  id: number;
   placa: string;
   horaEntrada: string;
+  horaSaida: string | null;
   estacionado: boolean;
 }

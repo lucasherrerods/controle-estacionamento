@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import type { Status, ResultadoSaida, Veiculo } from "../types"
 import api from "../services/api"
-import { registrarEntrada, registrarSaida, getVeiculosEstacionados } from "../services/controleService"
+import { registrarEntrada, registrarSaida, getVeiculos } from "../services/controleService"
 
 export function useEstacionamento() {
   const [status, setStatus] = useState<Status | null>(null)
@@ -26,7 +26,7 @@ export function useEstacionamento() {
     try {
       setLoading(true)
       await registrarEntrada(placa)
-      await Promise.all([getStatus(), getVeiculos()])
+      await Promise.all([getStatus(), getVeiculosHistorico()])
     } catch (error) {
       console.error("Erro ao registrar entrada:", error)
     } finally {
@@ -39,7 +39,7 @@ export function useEstacionamento() {
       setLoading(true)
       const response = await registrarSaida(placa)
       setResultado(response.data)
-      await Promise.all([getStatus(), getVeiculos()])
+      await Promise.all([getStatus(), getVeiculosHistorico()])
     } catch (error) {
       console.error("Erro ao registrar saída:", error)
     } finally {
@@ -47,10 +47,10 @@ export function useEstacionamento() {
     }
   }
 
-  async function getVeiculos() {
+  async function getVeiculosHistorico() {
     try {
       setLoading(true)
-      const response = await getVeiculosEstacionados()
+      const response = await getVeiculos()
       setVeiculosEstacionados(response.data)
     } catch (error) {
       console.error("Erro ao buscar veículos estacionados:", error)
@@ -61,7 +61,7 @@ export function useEstacionamento() {
 
   useEffect(() => {
     getStatus()
-    getVeiculos()
+    getVeiculosHistorico()
   }, [])
 
   return { status, loading, resultado, veiculosEstacionados, entrada, saida }
