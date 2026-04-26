@@ -54,12 +54,14 @@ public class VeiculoService
     }
 
     veiculo.HoraSaida = DateTime.Now;
-    veiculo.Estacionado = false;
-
-    _repository.UpdateVeiculo(veiculo);
-
     var horas = CalcularHoras(veiculo.HoraEntrada, veiculo.HoraSaida.Value);
     var valor = CalcularValor(horas);
+
+    veiculo.Estacionado = false;
+    veiculo.Horas = int.Parse(horas.ToString());
+    veiculo.Valor = valor;
+
+    _repository.UpdateVeiculo(veiculo);
 
     return new SaidaResult
     {

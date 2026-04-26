@@ -20,7 +20,9 @@ namespace ControleEstacionamento.Migrations
                     Placa = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     HoraEntrada = table.Column<DateTime>(type: "datetime2", nullable: false),
                     HoraSaida = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Estacionado = table.Column<bool>(type: "bit", nullable: false)
+                    Estacionado = table.Column<bool>(type: "bit", nullable: false),
+                    Horas = table.Column<int>(type: "int", nullable: true),
+                    Valor = table.Column<decimal>(type: "decimal", nullable: true)
                 },
                 constraints: table =>
                 {

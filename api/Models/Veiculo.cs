@@ -10,6 +10,8 @@ public class Veiculo
   public DateTime HoraEntrada { get; set; }
   public DateTime? HoraSaida { get; set; }
   public bool Estacionado { get; set; }
+  public int? Horas { get; set; }
+  public decimal? Valor { get; set; }
 
   public Veiculo()
   {

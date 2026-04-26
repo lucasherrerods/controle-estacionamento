@@ -16,4 +16,6 @@ export interface Veiculo {
   horaEntrada: string;
   horaSaida: string | null;
   estacionado: boolean;
+  horas: number;
+  valor: number;
 }
