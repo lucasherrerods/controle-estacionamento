@@ -1,73 +1,101 @@
-# React + TypeScript + Vite
+## 🚗 Controle de Estacionamento - Full Stack
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### 🚀 Tecnologias Usadas
 
-Currently, two official plugins are available:
+[![My Skills](https://skillicons.dev/icons?i=cs,dotnet,mysql,react,ts,vite,tailwind)](https://skillicons.dev)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+### 📌 Sobre o projeto
 
-## React Compiler
+Projeto desenvolvido com o objetivo de simular um sistema real de controle de estacionamento, abordando desde a construção de uma API RESTful em C# com ASP.NET Core até a criação de um frontend moderno em React + TypeScript.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+A aplicação permite gerenciar o fluxo completo de entrada e saída de veículos, controle de vagas disponíveis, cálculo de tempo de permanência e valor a pagar, além de oferecer uma interface interativa com feedbacks em tempo real.
 
-## Expanding the ESLint configuration
+O foco principal foi aplicar conceitos de arquitetura em camadas, boas práticas de desenvolvimento e construção de uma aplicação próxima de um cenário corporativo.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### 🗂️ Estrutura do projeto
+🔹 Backend
+```text
+api/
+ ├── Controllers/
+ │    └── EstacionamentoController.cs
+ │
+ ├── Services/
+ │    └── VeiculoService.cs
+ │    └── EstacionamentoService.cs
+ │
+ ├── Repositories/
+ │    └── VeiculoRepository.cs
+ │
+ ├── Data/
+ │    └── AppDbContext.cs
+ │
+ ├── Models/
+ │    ├── Veiculo.cs
+ │    └── Estacionamento.cs
+ │
+ ├── DTO/
+ │    └── SaidaResult.cs
+ │    └── StatusEstacionamento.cs
+ │    └── VeiculoRequest.cs
+ │
+ ├── Migrations/
+ │
+ └── Program.cs
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+🔹 Frontend
+```text
+web/
+ ├── components/
+ │    ├── ResultadoModal.tsx
+ │    ├── BilheteSaidas.tsx
+ │    ├── StatusEstacionamento.tsx
+ │    ├── Footer.tsx
+ │    ├── ControleAcesso.tsx
+ │    ├── ListaVeiculos.tsx
+ │    └── Header.tsx
+ │
+ ├── hooks/
+ │    └── useEstacionamento.ts
+ │
+ ├── services/
+ │    ├── api.ts
+ │    └── controleService.ts
+ │
+ ├── pages/
+ │    └── Home.tsx
+ │
+ ├── types/
+ │    └── index.tsx
+ │
+ └── main.tsx
+ └── App.tsx
+ └── index.css
 ```
+
+### ▶️ Como executar o projeto  
+🔹 Clonar o repositório e acessar API 
+   ```sh
+   git clone https://github.com/lucasherrerods/help-desk
+   cd api/
+   ```
+🔹 Configurar banco SQL Server através do arquivo ``appsettings.json``
+   ```sh
+   "ConnectionStrings": {
+  "DefaultConnection": "Server=.;Database=ControleEstacionamento;Trusted_Connection=True;TrustServerCertificate=True;"
+  }
+   ```
+🔹 Rodar migrations e executar API 
+   ```sh
+   dotnet ef database update
+   dotnet run
+   ```
+🔹 Acessar o frontend 
+   ```sh
+   cd web/
+   npm install
+   npm run dev
+   ```  
+
+Você pode interagir com os endpoints e acessar a documentação disponível no Swagger gerada pelo terminal (``http://localhost:5108/swagger``).
