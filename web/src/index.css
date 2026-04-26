@@ -1,1 +1,10 @@
 @import "tailwindcss";
+
+input::-webkit-inner-spin-button,
+input::-webkit-outer-spin-button {
+  appearance: none;
+}
+
+::-webkit-scrollbar {
+  width: 0px;
+}

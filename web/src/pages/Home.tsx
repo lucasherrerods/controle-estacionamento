@@ -4,6 +4,7 @@ import ControleAcesso from "../components/ControleAcesso";
 import { useEstacionamento } from "../hooks/useEstacionamento";
 import ListaVeiculos from "../components/ListaVeiculos";
 import ResultadoModal from "../components/ResultadoModal";
+import Footer from "../components/Footer";
 
 
 export default function Home() {
@@ -16,6 +17,7 @@ export default function Home() {
       <ControleAcesso entrada={entrada} saida={saida} />
       <ResultadoModal resultado={resultado} />
       <ListaVeiculos veiculos={veiculosEstacionados} />
+      <Footer />
     </main>
   )
 }
